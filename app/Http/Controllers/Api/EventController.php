@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Event;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return \App\Models\User::all();
+        return Event::all();
     }
 
     /**
@@ -20,13 +21,23 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $event = Event::create([
+            ...$request->validate([  // spread operatror '...' will copy all the elements from an old array to a new array
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'start_time' => 'required|date',
+                'end_time' => 'required|date|after:start_time'
+            ]),
+            'user_id' => 1
+        ]);
+
+        return $event;  // good practice
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(\App\Models\Event $event)
+    public function show(Event $event)
     {
         return $event;
     }
