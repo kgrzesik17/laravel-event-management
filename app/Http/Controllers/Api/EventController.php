@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Event;
+use App\Http\Resources\EventResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
+        return EventResource::collection(Event::with('user')->get());  // loading all events together with user relationships
     }
 
     /**
@@ -31,7 +32,7 @@ class EventController extends Controller
             'user_id' => 1
         ]);
 
-        return $event;  // good practice
+        return new EventResource($event);  // good practice
     }
 
     /**
@@ -39,7 +40,8 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        $event->load('user', 'attendees');
+        return new EventResource($event);
     }
 
     /**
@@ -56,7 +58,7 @@ class EventController extends Controller
             ])
         );
 
-        return $event;
+        return EventResource($event);
     }
 
     /**
@@ -70,6 +72,6 @@ class EventController extends Controller
         //     'message' => 'Event deleted successfully'
         // ]);
 
-        return response(status: 204);  // also acceptable
+        return response(status: 204);  // also acceptable - no content status
     }
 }

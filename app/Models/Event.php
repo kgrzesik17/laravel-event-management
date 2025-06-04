@@ -20,6 +20,6 @@ class Event extends Model
 
     public function attendees(): HasMany
     {
-        return $this->hasMany();
+        return $this->hasMany(Attendee::class);
     }
 }
