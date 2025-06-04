@@ -45,16 +45,31 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Event $event)
     {
-        //
+        $event->update(
+            $request->validate([
+                'name' => 'sometimes|string|max:255',  // will check next validation constraints if value is present in the input
+                'description' => 'nullable|string',
+                'start_time' => 'sometimes|date',
+                'end_time' => 'sometimes|date|after:start_time'
+            ])
+        );
+
+        return $event;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)  // route model binding instead of $id
     {
-        //
+        $event->delete();
+
+        // return response()->json([  // acceptable
+        //     'message' => 'Event deleted successfully'
+        // ]);
+
+        return response(status: 204);  // also acceptable
     }
 }
