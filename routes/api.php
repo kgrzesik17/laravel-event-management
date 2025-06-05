@@ -13,6 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('events', EventController::class);
 
 Route::apiResource('events.attendees', AttendeeController::class)
-    ->scoped(['attendee' => 'event']);  // scope makes sure attendee are always a part or an event
+    // ->scoped(['attendee' => 'event']);  // scope makes sure attendee are always a part or an event - breaks stuff
+    ->scoped()->except(['update']);  // this way there's no update route
 
 
