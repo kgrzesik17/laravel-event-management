@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AttendeeResource;
+use App\Http\Traits\CanLoadRelationships;
 Use App\Models\Event;
 Use App\Models\Attendee;
 use Illuminate\Http\Request;
@@ -47,8 +48,8 @@ class AttendeeController extends Controller
      */
     public function show(Event $event, Attendee $attendee)
     {
-        return AttendeeResource(
-            $this->loadRelationsips($attendee)
+        return new AttendeeResource(
+            $this->loadRelationships($attendee)
         );
     }
 
