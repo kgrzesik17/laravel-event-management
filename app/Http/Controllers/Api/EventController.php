@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    // EXPERIMENTAL CODE, DOUBLECHECK IF NOT WORKING PROPERLY
+
     use CanLoadRelationships;
 
     private array $relations = ['user', 'attendees', 'attendees.user'];
@@ -49,7 +51,6 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load('user', 'attendees');
         return new EventResource($this->loadRelationships($event));
     }
 
