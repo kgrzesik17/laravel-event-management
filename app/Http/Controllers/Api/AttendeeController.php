@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Traits\CanLoadRelationships;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AttendeeResource;
+use App\Http\Traits\CanLoadRelationships;
 use App\Models\Attendee;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AttendeeController extends Controller
 {
@@ -20,6 +21,8 @@ class AttendeeController extends Controller
      */
     public function index(Event $event)
     {
+        Gate::authorize('viewAny', Event::class);
+
         $attendees = $event->attendees()->latest();
 
         return AttendeeResource::collection(
