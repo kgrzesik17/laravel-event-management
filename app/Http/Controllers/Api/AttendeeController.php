@@ -21,7 +21,7 @@ class AttendeeController extends Controller
      */
     public function index(Event $event)
     {
-        Gate::authorize('viewAny', Event::class);
+        // Gate::authorize('viewAny', Event::class);
 
         $attendees = $event->attendees()->latest();
 
