@@ -21,16 +21,17 @@ Route::apiResource('events', EventController::class)
 // Protected routes
 Route::apiResource('events', EventController::class)
     ->only(['store', 'update', 'destroy'])
-    ->middleware(['auth:sanctum']);
+    ->middleware(['auth:sanctum', 'throttle:api']);
 
 // Protected routes
 Route::apiResource('events.attendees', AttendeeController::class)
     ->scoped()
     ->only(['store', 'destroy'])
-    ->middleware(['auth:sanctum']);
+    ->middleware(['auth:sanctum', 'throttle:api']);
 
 
 // Public routes
 Route::apiResource('events.attendees', AttendeeController::class)
     ->scoped()
-    ->only(['index', 'show']);
+    ->only(['index', 'show'])
+    ->middleware(['throttle:api']);
