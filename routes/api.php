@@ -33,5 +33,4 @@ Route::apiResource('events.attendees', AttendeeController::class)
 // Public routes
 Route::apiResource('events.attendees', AttendeeController::class)
     ->scoped()
-    ->only(['index', 'show'])
-    ->middleware(['throttle:api']);
+    ->only(['index', 'show']);
